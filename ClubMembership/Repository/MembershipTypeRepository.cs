@@ -90,6 +90,11 @@ namespace ClubMembership.Repository
             var dbObject = _DbContext.MembershipTypes.FirstOrDefault(x => x.IdmemrbeshipType == model.IdmemrbeshipType);
             if (dbObject != null)
             {
+                var memberships = _DbContext.Memberships.Where(x => x.IdmembershipType == dbObject.IdmemrbeshipType).ToList();
+                foreach(var membership in memberships)
+                {
+                    _DbContext.Memberships.Remove(membership);
+                }
                 _DbContext.MembershipTypes.Remove(dbObject);
                 _DbContext.SaveChanges();
             }
